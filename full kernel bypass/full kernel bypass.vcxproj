@@ -85,6 +85,7 @@
     <ConfigurationType>Driver</ConfigurationType>
     <DriverType>KMDF</DriverType>
     <DriverTargetPlatform>Universal</DriverTargetPlatform>
+    <Driver_SpectreMitigation>false</Driver_SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <TargetVersion>Windows10</TargetVersion>
@@ -157,6 +158,7 @@
     <FilesToPackage Include="$(TargetPath)" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cleaning\cleaning.cpp" />
     <ClCompile Include="io\io.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="memory\memory.cpp" />
@@ -164,6 +166,7 @@
     <ClCompile Include="utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cleaning\cleaning.h" />
     <ClInclude Include="defs.h" />
     <ClInclude Include="io\io.h" />
     <ClInclude Include="memory\memory.h" />

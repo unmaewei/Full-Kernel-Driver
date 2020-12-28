@@ -12,7 +12,7 @@ void driver::io::dbgprint( PCCH format, ...)
 	const ULONG N = _vsnprintf_s(message, sizeof(message) - 1, format, _valist);
 	message[N] = L'\0';
 
-	vDbgPrintExWithPrefix("[UwU] ", DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, message, _valist);
+	vDbgPrintExWithPrefix("[Kernel Driver] ", DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, message, _valist);
 
 	va_end(_valist);
 }

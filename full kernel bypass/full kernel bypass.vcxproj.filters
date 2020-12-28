@@ -24,6 +24,9 @@
     <Filter Include="Header Files\thread">
       <UniqueIdentifier>{b5004452-c296-4540-90de-83293b83e9af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\cleaning">
+      <UniqueIdentifier>{3f41d68c-0fe0-4184-92a1-9663637a241d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="io\io.cpp">
@@ -40,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="thread\thread.cpp">
       <Filter>Header Files\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="cleaning\cleaning.cpp">
+      <Filter>Header Files\cleaning</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +66,9 @@
     </ClInclude>
     <ClInclude Include="thread\thread.h">
       <Filter>Header Files\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="cleaning\cleaning.h">
+      <Filter>Header Files\cleaning</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

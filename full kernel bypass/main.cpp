@@ -6,13 +6,19 @@
 #include "utils/utils.h"
 #include "memory/memory.h"
 #include "thread/thread.h"
+#include "cleaning/cleaning.h"
 using namespace driver;
 
 void driver_thread( void* context )
 {
+	// allow five seconds for driver to finish entry
+	utils::sleep(5000);
+	
+	// debug text
+	io::dbgprint( "cleaning status -> %i", cleaning::clean_traces( ) );
 	io::dbgprint( "tid -> %i", PsGetCurrentThreadId( ) );
 
-	// prevent those pesky bans
+	// user extersize
 	bool status = thread::unlink( );
 	io::dbgprint( "unlinked thread -> %i", status );
 
@@ -21,16 +27,18 @@ void driver_thread( void* context )
 	io::dbgprint( "process name -> %s", process::process_name );
 
 	// scuff check to check if our peprocess is valid
-	while ( reinterpret_cast< uint64 >( utils::process_by_name( process::process_name ) ) < 0xffff000000000000)
+	while ( utils::process_by_name( process::process_name, &process::process ) == STATUS_NOT_FOUND)
 	{
-		process::process = utils::process_by_name( process::process_name );
 		io::dbgprint( "waiting for -> %s", process::process_name );
-		utils::sleep(500);
+		utils::sleep(2000);
 	}
-	io::dbgprint( "peprocess -> 0x%llx", process::process );
+	io::dbgprint("found process -> %s", process::process_name);
 
-	// sleep for 10 seconds to allow game to get started and prevent us from getting false info
-	utils::sleep(10000);
+	// sleep for 15 seconds to allow game to get started and prevent us from getting false info
+	utils::sleep(15000);
+
+	utils::process_by_name( process::process_name, &process::process );
+	io::dbgprint( "peprocess -> 0x%llx", process::process );
 
 	process::pid = reinterpret_cast< uint32 >( PsGetProcessId( process::process ) );
 	io::dbgprint("pid -> %i", process::pid);
@@ -65,14 +73,19 @@ void driver_thread( void* context )
 			}
 		}
 	}
+	PsTerminateSystemThread( STATUS_SUCCESS );
 }
 
 NTSTATUS DriverEntry( PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path ) {
-
 	UNREFERENCED_PARAMETER( driver_object );
 	UNREFERENCED_PARAMETER( registry_path );
 
 	io::dbgprint("driver entry called.");
+
+	// change this per mapper; debug prints the entire mmu
+	cleaning::debug = false;
+	cleaning::driver_timestamp = 0x5284EAC3;
+	cleaning::driver_name = RTL_CONSTANT_STRING(L"iqvw64e.sys");
 
 	HANDLE thread_handle = nullptr;
 	OBJECT_ATTRIBUTES object_attribues{ };
